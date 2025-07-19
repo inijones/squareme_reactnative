@@ -1,29 +1,32 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+SplashScreen.preventAutoHideAsync(); // Ensure splash screen stays visible until fonts load
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    'ClashGrotesk-Regular': require('../assets/fonts/ClashGrotesk-Regular.otf'),
+    'ClashGrotesk-Bold': require('../assets/fonts/ClashGrotesk-Bold.otf'),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync(); // Hide splash screen after fonts load
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null; // Don't render anything until fonts are ready
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({});

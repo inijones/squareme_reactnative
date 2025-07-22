@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync(); // Ensure splash screen stays visible until fonts load
 
@@ -29,4 +29,4 @@ export default function Layout() {
   );
 }
 
-const styles = StyleSheet.create({});
+

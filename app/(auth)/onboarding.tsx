@@ -72,14 +72,14 @@ const OnboardingScreen = () => {
         <Typo fontWeight={'700'} style={styles.title}>{item.title}</Typo>
         <Typo style={styles.subtitle}>{item.subtitle}</Typo>
 
-        <TouchableOpacity onPress={() => { }} style={styles.buttonPrimary}>
+        <TouchableOpacity onPress={() => router.push('/createAccount')} style={styles.buttonPrimary}>
           <Typo size={14} style={styles.buttonPrimaryText}>Create an account</Typo>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonSecondary}>
+        <TouchableOpacity onPress={() => router.push('/login')} style={styles.buttonSecondary}>
           <Typo size={14}>I already have an account</Typo>
         </TouchableOpacity>
-        
+
       </View>
     </ImageBackground>
   );

@@ -1,5 +1,5 @@
-   import { ScrollView, StyleSheet, Text, View } from 'react-native'
-   import React from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
+import React from 'react'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Header from '@/components/Header'
 import WalletCard from '@/components/WalletCard'

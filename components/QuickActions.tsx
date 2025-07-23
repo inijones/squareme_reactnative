@@ -1,127 +1,179 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image, FlatList } from 'react-native';
 
-interface QuickAction {
+interface ActionItem {
   id: string;
-  icon: keyof typeof Ionicons.glyphMap;
   label: string;
-  color: string;
+  image: any; // imported image reference
   onPress: () => void;
 }
 
 interface QuickActionsProps {
-  actions?: QuickAction[];
+  actions?: ActionItem[];
 }
 
-const defaultActions: QuickAction[] = [
+const defaultActions = [
   {
     id: '1',
-    icon: 'wallet',
     label: 'Fund Wallet',
-    color: '#4FC3F7',
-    onPress: () => console.log('Fund Wallet'),
+    image: require('../assets/images/fund_wallet.png'),
+    onPress: () => {},
   },
   {
     id: '2',
-    icon: 'arrow-down',
     label: 'Withdraw',
-    color: '#9C27B0',
-    onPress: () => console.log('Withdraw'),
+    image: require('../assets/images/withdraw.png'),
+    onPress: () => {},
   },
   {
     id: '3',
-    icon: 'receipt',
     label: 'Pay Bills',
-    color: '#FF9800',
-    onPress: () => console.log('Pay Bills'),
+    image: require('../assets/images/pay_bill.png'),
+    onPress: () => {},
   },
   {
     id: '4',
-    icon: 'card',
     label: 'Cards',
-    color: '#673AB7',
-    onPress: () => console.log('Cards'),
+    image: require('../assets/images/card.png'),
+    onPress: () => {},
   },
   {
     id: '5',
-    icon: 'qr-code',
     label: 'Squareme Pot',
-    color: '#3F51B5',
-    onPress: () => console.log('Squareme Pot'),
+    image: require('../assets/images/squareme_pot.png'),
+    onPress: () => {},
+  },
+  {
+    id: '6',
+    label: 'Airtime',
+    image: require('../assets/images/airtime.png'),
+    onPress: () => {},
+  },
+  {
+    id: '7',
+    label: 'Data',
+    image: require('../assets/images/wifi.png'),
+    onPress: () => {},
+  },
+  {
+    id: '8',
+    label: 'Cable TV',
+    image: require('../assets/images/cable.png'),
+    onPress: () => {},
+  },
+  {
+    id: '9',
+    label: 'Utility',
+    image: require('../assets/images/utility.png'),
+    onPress: () => {},
   },
 ];
 
+
 const QuickActions: React.FC<QuickActionsProps> = ({ actions = defaultActions }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpanded = () => setExpanded(prev => !prev);
+
+  const renderItem = ({ item }: { item: ActionItem }) => (
+    <TouchableOpacity key={item.id} style={styles.actionItem} onPress={item.onPress}>
+      <View style={styles.iconWrapper}>
+        <Image source={item.image} style={styles.iconImage} resizeMode="contain" />
+        <Text style={styles.actionLabel}>{item.label}</Text>
+      </View>
+     
+    </TouchableOpacity>
+  );
+
+  const itemsToRender = expanded ? actions : actions.slice(0, 5);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Quick Actions</Text>
-        <TouchableOpacity>
-          <Text style={styles.seeMore}>See more</Text>
+        <TouchableOpacity onPress={toggleExpanded}>
+          <Text style={styles.seeMore}>{expanded ? 'See less' : 'See more'}</Text>
         </TouchableOpacity>
       </View>
-      
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.actionsContainer}
-      >
-        {actions.map((action) => (
-          <TouchableOpacity key={action.id} style={styles.actionItem} onPress={action.onPress}>
-            <View style={[styles.actionIcon, { backgroundColor: action.color }]}>
-              <Ionicons name={action.icon} size={24} color="white" />
-            </View>
-            <Text style={styles.actionLabel}>{action.label}</Text>
-          </TouchableOpacity>
+
+      {expanded ? (
+      <View style={styles.gridContainer}>
+        {actions.map((item, index) => (
+          <View
+            key={item.id}
+            style={[
+              styles.actionItem,
+              { marginRight: (index + 1) % 4 === 0 ? 0 : 8 } // no margin on last column
+            ]}
+          >
+            {renderItem({ item })}
+          </View>
         ))}
+      </View>
+      ) : (
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {actions.slice(0, 5).map(item => renderItem({ item }))}
       </ScrollView>
+)}
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    paddingHorizontal: 16,
     marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 15,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    fontFamily: 'ClashGrotesk-Medium',
   },
   seeMore: {
-    fontSize: 14,
-    color: '#9C27B0',
-    fontWeight: '500',
+    fontSize: 12,
+    color: '#9F56D4',
+    fontFamily: 'ClashGrotesk-Regular',
   },
-  actionsContainer: {
-    paddingHorizontal: 20,
-    gap: 15,
+  scrollContainer: {
+    gap: 2,
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 4,
   },
   actionItem: {
     alignItems: 'center',
-    width: 80,
+    marginRight: 8, // control horizontal gap
+    marginBottom: 0,
+    width: 70, // tighter width
+    padding: 0,
   },
-  actionIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  iconWrapper: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 6,
+    width: 70,
+    height: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 4, // less vertical space
+  },
+  iconImage: {
+    width: 22,
+    height: 22,
+    marginBottom: 6,
   },
   actionLabel: {
-    fontSize: 12,
+    fontSize: 10,
     textAlign: 'center',
-    color: '#666',
-    fontWeight: '500',
+    fontFamily: 'ClashGrotesk-Light',
   },
 });
 

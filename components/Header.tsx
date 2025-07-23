@@ -23,16 +23,16 @@ const Header: React.FC<HeaderProps> = ({
       
       <View style={styles.rightSection}>
         <TouchableOpacity style={[styles.iconButton, { backgroundColor: '#4FC3F7' }]}>
-          <Ionicons name="apps" size={20} color="white" />
+          <Ionicons name="gift" size={14} color="white" />
           <View style={styles.notificationBadge} />
         </TouchableOpacity>
         
-        <TouchableOpacity style={[styles.iconButton, { backgroundColor: '#81C784' }]}>
-          <Ionicons name="chatbubble" size={20} color="white" />
+        <TouchableOpacity style={[styles.iconButton, { backgroundColor: '#4FC3F7' }]}>
+          <Ionicons name="add" size={14} color="white" />
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="notifications" size={24} color="#333" />
+          <Ionicons name="notifications-outline" size={16} color="#333" />
         </TouchableOpacity>
       </View>
     </View>
@@ -53,15 +53,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     marginRight: 10,
   },
   greeting: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '400',
     color: '#333',
+    fontFamily: 'ClashGrotesk-Medium',
   },
   rightSection: {
     flexDirection: 'row',
@@ -69,9 +70,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
@@ -79,10 +80,10 @@ const styles = StyleSheet.create({
   },
   notificationBadge: {
     position: 'absolute',
-    top: 2,
-    right: 2,
-    width: 12,
-    height: 12,
+    top: 0,
+    right: 0,
+    width: 8,
+    height: 8,
     borderRadius: 6,
     backgroundColor: '#FF5722',
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface Transaction {
@@ -54,14 +54,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
     return `${prefix}NGN ${Math.abs(amount).toLocaleString()}`;
   };
 
-  const getTransactionIcon = (type: string) => {
-    switch (type) {
-      case 'withdrawal': return 'arrow-up-circle';
-      case 'deposit': return 'arrow-down-circle';
-      case 'payment': return 'card';
-      default: return 'swap-horizontal';
-    }
-  };
+ 
 
   return (
     <View style={styles.container}>
@@ -76,10 +69,10 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
         {transactions.map((transaction) => (
           <TouchableOpacity key={transaction.id} style={styles.transactionItem}>
             <View style={styles.transactionIcon}>
-              <Ionicons 
-                name={getTransactionIcon(transaction.type)} 
-                size={24} 
-                color="#FF9800" 
+              <Image 
+                source={require('../assets/images/money_yellow.png')} 
+                style={styles.iconImage} 
+                resizeMode="contain" 
               />
             </View>
             
@@ -99,7 +92,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
         
         <TouchableOpacity style={styles.seeMoreButton}>
           <Text style={styles.seeMoreText}>See more</Text>
-          <Ionicons name="chevron-down" size={16} color="#9C27B0" />
+          <Ionicons name="chevron-down" size={14} color="#9C27B0" />
         </TouchableOpacity>
       </View>
     </View>
@@ -115,23 +108,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
     color: '#333',
+    fontFamily: 'ClashGrotesk-Medium',
+  },
+  iconImage: {
+    width: 24,
+    height: 24,
   },
   viewAll: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#9C27B0',
     fontWeight: '500',
+    fontFamily: 'ClashGrotesk-Regular',
   },
   transactionsList: {
     backgroundColor: 'white',
     marginHorizontal: 20,
     borderRadius: 12,
-    padding: 15,
+
   },
   transactionItem: {
     flexDirection: 'row',
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
   transactionIcon: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: 8,
     backgroundColor: '#FFF3E0',
     justifyContent: 'center',
     alignItems: 'center',
@@ -153,14 +152,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   transactionTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     color: '#333',
     marginBottom: 4,
+    fontFamily: 'ClashGrotesk-Regular',
   },
   transactionSubtitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
+    fontFamily: 'ClashGrotesk-Light',
   },
   transactionAmount: {
     alignItems: 'flex-end',
@@ -170,10 +171,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     marginBottom: 4,
+    fontFamily: 'ClashGrotesk-Regular',
   },
   statusText: {
     fontSize: 12,
     fontWeight: '500',
+    fontFamily: 'ClashGrotesk-Light',
   },
   seeMoreButton: {
     flexDirection: 'row',
@@ -183,9 +186,10 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   seeMoreText: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#9C27B0',
     fontWeight: '500',
+    fontFamily: 'ClashGrotesk-Regular',
   },
 });
 

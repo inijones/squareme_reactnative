@@ -5,7 +5,7 @@ import CustomTabs from '@/components/CustomTabs'
 
 const _layout = () => {
   return (
-    <Tabs tabBar={CustomTabs} screenOptions={{ headerShown: true }}>
+    <Tabs tabBar={CustomTabs} screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="home" />
       <Tabs.Screen name="payments" />
       <Tabs.Screen name="more" />

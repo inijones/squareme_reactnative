@@ -45,7 +45,7 @@ const Login = () => {
   const handleLogin = () => {
     if (value.length === CELL_COUNT) {
       console.log('PIN entered:', value);
-      router.push('../(tabs)/home');
+      router.push('/home');
     }
   };
 

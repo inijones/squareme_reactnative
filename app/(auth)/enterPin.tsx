@@ -9,9 +9,19 @@ import AppButton from '@/components/AppButton';
 const CELL_COUNT = 6;
 
 const EnterPin = () => {
-        const [value, setValue] = useState('');
-        const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
+    const [value, setValue] = useState('');
+    const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
     const router = useRouter();
+
+
+    const handleContinue = () => {
+        if (value.length !== 6) {
+          alert('Please enter a 6-digit PIN');
+          return;
+        }
+    
+        router.push({ pathname: '/verifyPin', params: { pin: value } });
+    };
 
     return (
       <View style={styles.container}>
@@ -38,7 +48,7 @@ const EnterPin = () => {
                 )}
             />
 
-            <AppButton title="Continue" onPress={() => router.replace('/success')} style={{marginTop: 500}} />
+            <AppButton title="Continue" onPress={handleContinue} style={{marginTop: 500}} />
       </View>
     )
 }

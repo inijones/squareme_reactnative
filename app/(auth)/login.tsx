@@ -1,6 +1,7 @@
 import LogoWithHelpIcon from '@/components/LogoHelpIcon';
 import { colors } from '@/constants/theme';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
@@ -11,6 +12,8 @@ const Login = () => {
   const [value, setValue] = useState('');
   const [showBiometrics, setShowBiometrics] = useState(false);
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
+
+  const router = useRouter();
 
   useEffect(() => {
     const checkBiometrics = async () => {
@@ -42,7 +45,7 @@ const Login = () => {
   const handleLogin = () => {
     if (value.length === CELL_COUNT) {
       console.log('PIN entered:', value);
-      // Validate PIN and proceed
+      router.push('../(tabs)/home');
     }
   };
 

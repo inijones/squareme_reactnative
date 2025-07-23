@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import LogoWithHelpIcon from '@/components/LogoHelpIcon';
+import { colors } from '@/constants/theme';
 import * as LocalAuthentication from 'expo-local-authentication';
+import React, { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
 const CELL_COUNT = 6;
@@ -46,11 +48,14 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>squareme🚀</Text>
+
+      <LogoWithHelpIcon />
+    
 
       <Text style={styles.welcome}>Welcome back John</Text>
       <Text style={styles.instruction}>Enter your PIN to access your Squareme account</Text>
 
+      {/* Code Field */}
       <CodeField
         {...props}
         value={value}
@@ -70,25 +75,33 @@ const Login = () => {
         )}
       />
 
+      {/* Forgot PIN */}
+      <Pressable>
+          <Text style={styles.forgotPin}>Forgot PIN?</Text>
+      </Pressable>
+  
+
       {value.length === 0 && showBiometrics && (
         <TouchableOpacity style={styles.biometric} onPress={handleBiometricAuth}>
           <Text style={styles.biometricText}>🔒 Use Biometrics</Text>
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity
-        style={[styles.loginButton, value.length < CELL_COUNT && { opacity: 0.5 }]}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+        style={[styles.loginButton, value.length < CELL_COUNT && { opacity: 0.3 }]}
         disabled={value.length < CELL_COUNT}
         onPress={handleLogin}
-      >
-        <Text style={styles.loginText}>Log In</Text>
-      </TouchableOpacity>
+        >
+        <Text style={styles.loginText}>Log in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.link}>Not John? <Text style={{ color: '##9F56D4' }}>Log out</Text></Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity>
-        <Text style={styles.link}>Not John? <Text style={{ textDecorationLine: 'underline' }}>Log out</Text></Text>
-      </TouchableOpacity>
-
-      <Text style={styles.version}>v2.5.501</Text>
+        <Text style={styles.version}>v2.5.501</Text>
+      </View>
+    
     </View>
   );
 }
@@ -99,23 +112,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 80,
+    paddingTop: 40,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
   },
-  logo: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1B1B2F',
-  },
   welcome: {
     fontSize: 20,
-    fontWeight: '600',
-    marginTop: 40,
+    fontWeight: '400',
+    fontFamily: 'ClashGrotesk-Medium',
   },
   instruction: {
     fontSize: 14,
     color: '#555',
+    fontFamily: 'ClashGrotesk-Regular',
     marginTop: 6,
   },
   codeFieldRoot: {
@@ -128,12 +137,14 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     fontSize: 24,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#F3F4F7',
     borderRadius: 8,
     textAlign: 'center',
     marginHorizontal: 6,
     justifyContent: 'center',
     alignItems: 'center',
+    fontFamily: 'ClashGrotesk-Regular',
+    backgroundColor: '#F3F4F7',
   },
   cellText: {
     fontSize: 24,
@@ -155,21 +166,36 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 24,
     alignItems: 'center',
+    fontFamily: 'ClashGrotesk-Medium',
   },
   loginText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: 'ClashGrotesk-Medium',
   },
   link: {
     textAlign: 'center',
     marginTop: 16,
     color: '#555',
+    fontSize: 14,
+    fontFamily: 'ClashGrotesk-Regular',
   },
   version: {
     textAlign: 'center',
-    color: '#aaa',
+    color: colors.primary,
     fontSize: 12,
     marginTop: 12,
+    fontFamily: 'ClashGrotesk-Regular',
+  },
+  buttonContainer: {
+    marginTop: 350,
+  },
+  forgotPin: {
+    textAlign: 'center',
+    marginTop: 16,
+    color: '#9F56D4',
+    fontSize: 14,
+    fontFamily: 'ClashGrotesk-Regular',
   },
 });

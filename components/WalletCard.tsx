@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   squaremeText: {
     color: 'rgba(255,255,255,0.9)',
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'ClashGrotesk-Regular',
   },
 });

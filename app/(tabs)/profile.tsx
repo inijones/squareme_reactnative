@@ -1,14 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import ProfileScreen from '@/components/ProfileScreen';
 
 const profile = () => {
+  const handleProfilePress = () => {
+    console.log('Profile pressed - navigate to edit profile');
+  };
+
+  const handleMenuItemPress = (item: any) => {
+    console.log(`Menu item pressed: ${item.title}`);
+    // Navigate to respective screen based on item.id
+  };
+
+  const handleLogout = () => {
+    console.log('Logout pressed - show confirmation dialog');
+  };
+
   return (
-    <View>
-      <Text>profile</Text>
-    </View>
+    <ProfileScreen
+      onProfilePress={handleProfilePress}
+      onMenuItemPress={handleMenuItemPress}
+      onLogout={handleLogout}
+    />
   )
 }
 
 export default profile
-
-const styles = StyleSheet.create({})

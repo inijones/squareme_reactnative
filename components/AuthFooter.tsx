@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const AuthFooter = ({
+  buttonText = 'Log in',
   onLoginPress,
   isLoginDisabled,
   onLogoutPress,
@@ -16,7 +17,7 @@ const AuthFooter = ({
         disabled={isLoginDisabled}
         onPress={onLoginPress}
       >
-        <Text style={styles.loginText}>Log in</Text>
+        <Text style={styles.loginText}>{buttonText}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={onLogoutPress}>

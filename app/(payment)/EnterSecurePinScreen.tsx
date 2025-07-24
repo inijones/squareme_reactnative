@@ -1,37 +1,47 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import HeaderWithBack from '@/components/HeaderWithBack'
-import { useRouter } from 'expo-router';
-import Typo from '@/components/Typo';
-import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import AppButton from '@/components/AppButton';
+import HeaderWithBack from '@/components/HeaderWithBack';
+import Typo from '@/components/Typo';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
 const CELL_COUNT = 6;
 
-const EnterPin = () => {
+
+const EnterSecurePinScreen = () => {
     const [value, setValue] = useState('');
-    const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
-    const router = useRouter();
+      const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
+      const router = useRouter();   
 
-
-    const handleContinue = () => {
+      const handleContinue = () => {
         if (value.length !== 6) {
           alert('Please enter a 6-digit PIN');
           return;
         }
-    
-        router.push({ pathname: '/verifyPin', params: { pin: value } });
-    };
+        
+        router.push({
+          pathname: '/success',
+          params: {
+            title: 'Transaction Successful!',
+            message: 'You have successfully sent  NGN 2,000.00 to Aderinsola. The recipient should get an alert shortly',
+            nextRoute: '/',
+            image: 'transfer',
+        }
+        });
+
+      };
 
     return (
       <View style={styles.container}>
             <HeaderWithBack title="Set Your Security Pin" onBackPress={() => router.back()} />
         
-            <Typo style={styles.title}>Set a six (6) digit pin that you would use for all transactions</Typo>
+            <Typo style={styles.title}>Enter your PIN to continue. Do not share your PIN with anyone,</Typo>
 
             <CodeField
                 {...props}
                 value={value}
+                secureTextEntry={true}
                 onChangeText={setValue}
                 cellCount={CELL_COUNT}
                 rootStyle={styles.codeFieldRoot}
@@ -43,27 +53,28 @@ const EnterPin = () => {
                     style={[styles.cell, isFocused && styles.focusCell]}
                     onLayout={getCellOnLayoutHandler(index)}
                   >
-                    <Text style={styles.cellText}>{symbol || (isFocused ? <Cursor /> : null)}</Text>
+                    <Text style={styles.cellText}>
+                      {symbol ? '•' : isFocused ? <Cursor /> : null}
+                    </Text>
                   </View>
                 )}
             />
 
-            <AppButton title="Continue" onPress={handleContinue} style={{marginTop: '500'}} />
+            <AppButton title="Done" onPress={handleContinue} style={{marginTop: "auto", marginBottom: 40}} />
       </View>
     )
 }
 
-export default EnterPin
+export default EnterSecurePinScreen
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 24,
-        paddingTop: 40,
         backgroundColor: '#fff',
-        justifyContent: 'flex-start',
+        paddingHorizontal: 24,
+        paddingTop: 60,
     },
-    title: {
+     title: {
         fontSize: 14,
         fontWeight: '400',
         fontFamily: 'ClashGrotesk-Light',
@@ -73,6 +84,7 @@ const styles = StyleSheet.create({
     codeFieldRoot: {
         marginTop: 24,
         justifyContent: 'center',
+        
     },
     cell: {
         width: 48,
@@ -90,10 +102,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#F3F4F7',
     },
     focusCell: {
-        borderColor: '#000080',
+        borderColor: '#000',
     },
     cellText: {
+        color: '#000',
         fontSize: 24,
-        color: '#000080',
     },
 })
+

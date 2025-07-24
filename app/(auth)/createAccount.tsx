@@ -40,7 +40,7 @@ const CreateAccount = () => {
         By signing up, you accept our <Text style={styles.termsLink}>Terms & Conditions</Text>
       </Text>
 
-      <AuthFooter onLoginPress={() => {router.push('/verifyPhoneNumber')}} isLoginDisabled={false} onLogoutPress={() => {}} marginTop={150} />
+      <AuthFooter onLoginPress={() => {router.push('/verifyPhoneNumber')}} buttonText="Next" isLoginDisabled={false} onLogoutPress={() => {}} marginTop={150} />
       
     </View>
   )

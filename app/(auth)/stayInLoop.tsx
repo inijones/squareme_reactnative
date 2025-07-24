@@ -33,7 +33,7 @@ const MailInfoScreen = () => {
             style={styles.button}
           />
 
-          <Pressable onPress={() => router.back()} style={styles.pressable}>
+          <Pressable onPress={() => router.push('/home')} style={styles.pressable}>
             <Text style={styles.pressableText}>No, Thank You</Text>
           </Pressable>
         </View>

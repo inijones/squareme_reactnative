@@ -48,3 +48,59 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Folder Structure
+```
+app/
+├── (tabs)/                         # Tab entry points for navigation
+│   ├── home.tsx
+│   ├── profile.tsx
+│   └── payment.tsx
+
+├── auth/                           # Authentication feature
+│   ├── api.ts                      # API calls (login, register, etc.)
+│   ├── hooks.ts                    # Auth-related custom hooks
+│   ├── store.ts                    # Zustand store for auth state
+│   └── types.ts                    # Types: User, AuthToken, etc.
+
+├── home/                           # Home tab feature
+│   ├── screens/
+│   │   ├── NotificationScreen.tsx  # Home notification view
+│   │   └── TransactionScreen.tsx   # List of recent transactions
+│   ├── components/
+│   │   └── TransactionItem.tsx     # UI component for a transaction
+│   ├── hooks.ts                    # Custom hooks for home logic
+│   ├── store.ts                    # Zustand store for local state (optional)
+│   └── types.ts                    # Feature-specific types
+
+├── profile/                        # Profile tab feature
+│   ├── screens/
+│   │   ├── NotificationScreen.tsx
+│   │   ├── BadgesScreen.tsx
+│   │   └── RewardsScreen.tsx
+│   ├── components/
+│   │   └── BadgeCard.tsx
+│   └── types.ts
+
+├── payment/                        # Payment flow
+│   ├── screens/
+│   │   ├── SendMoneyScreen.tsx
+│   │   ├── ConfirmTransactionScreen.tsx
+│   │   ├── PinScreen.tsx
+│   │   └── SuccessScreen.tsx
+│   ├── components/
+│   │   └── AmountInput.tsx
+│   ├── store.ts                    # Zustand store (amount, PIN, etc.)
+│   ├── hooks.ts
+│   └── types.ts
+
+├── shared/                         # Shared resources and utilities
+│   ├── components/
+│   │   ├── Button.tsx              # Reusable button component
+│   │   └── Modal.tsx               # Generic modal
+│   ├── navigation.ts               # Navigation helpers
+│   ├── constants.ts                # App-wide constants (e.g., colors, routes)
+│   └── utils/
+│       ├── result.ts               # Dartz-style result handling (success/failure)
+│       └── formatters.ts           # Format helpers (currency, date, etc.)
+```

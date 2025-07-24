@@ -11,9 +11,10 @@ import PaymentOptionCard from './PaymentOptionCard';
 import TransactionItem from './TransactionItem';
 import SectionHeader from './SectionHeader';
 import ReferralCard from './ReferralCard';
+import { useRouter } from 'expo-router';
 
 export default function PaymentMenu({ 
-  backgroundImage, // Pass your background image here
+  backgroundImage,
   onSendMoney,
   onRequestMoney,
   onTransactionPress,
@@ -31,6 +32,8 @@ export default function PaymentMenu({
     // Add more transactions here
   ];
 
+  const router = useRouter();
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
@@ -47,7 +50,7 @@ export default function PaymentMenu({
           iconColor="#2563eb"
           backgroundColor="#eff6ff"
           iconBackgroundColor="#dbeafe"
-          onPress={onSendMoney}
+          onPress={() =>router.push('/(payment)/SendMoneyScreen')}
         />
         
         <PaymentOptionCard
@@ -57,7 +60,7 @@ export default function PaymentMenu({
           iconColor="#16a34a"
           backgroundColor="#f0fdf4"
           iconBackgroundColor="#F2FAEB"
-          onPress={onRequestMoney}
+           onPress={() =>router.push('/(payment)/SendMoneyScreen')}
         />
       </View>
 

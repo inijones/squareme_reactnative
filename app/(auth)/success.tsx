@@ -2,17 +2,35 @@ import AppButton from '@/components/AppButton';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
+const imageMap = {
+  transfer: require('../../assets/images/transfer_success.png'),
+  default: require('../../assets/images/success_create_image.png'),
+};
+
 export default function SuccessScreen() {
   const router = useRouter();
-  const { title, message, nextRoute, buttonText = 'Continue' } = useLocalSearchParams();
+  const {
+    title,
+    message,
+    nextRoute,
+    buttonText = 'Continue',
+    image,
+  } = useLocalSearchParams();
 
   const safeNextRoute = typeof nextRoute === 'string' ? nextRoute : '/';
+
+  const selectedImageKey =
+  typeof image === 'string' && image in imageMap
+    ? (image as keyof typeof imageMap)
+    : 'default';
+
+const successImage = imageMap[selectedImageKey];
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={require('../../assets/images/success_create_image.png')}
+          source={successImage}
           style={styles.icon}
           resizeMode="contain"
         />
@@ -29,6 +47,8 @@ export default function SuccessScreen() {
     </View>
   );
 }
+
+
 
 
 const styles = StyleSheet.create({

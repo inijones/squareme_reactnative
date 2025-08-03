@@ -3,7 +3,7 @@ import { colors } from '@/constants/theme';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View, Keyboard } from 'react-native';
 import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
 const CELL_COUNT = 6;
@@ -62,7 +62,12 @@ const Login = () => {
       <CodeField
         {...props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={(text) => {
+          setValue(text);
+          if (text.length === CELL_COUNT) {
+            Keyboard.dismiss();
+          }
+        }}
         cellCount={CELL_COUNT}
         rootStyle={styles.codeFieldRoot}
         keyboardType="number-pad"

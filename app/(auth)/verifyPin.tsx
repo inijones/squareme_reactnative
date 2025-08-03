@@ -1,53 +1,69 @@
-import { useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
-import AppButton from '@/components/AppButton'; // Adjust path if needed
-import HeaderWithBack from '@/components/HeaderWithBack'; // Adjust path if needed
-import Typo from '@/components/Typo';
+import AppButton from "@/components/AppButton"; // Adjust path if needed
+import HeaderWithBack from "@/components/HeaderWithBack"; // Adjust path if needed
+import Typo from "@/components/Typo";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";
+import { Alert, Keyboard, StyleSheet, Text, View } from "react-native";
+import {
+  CodeField,
+  Cursor,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
 
 const CELL_COUNT = 6;
 
 export default function VerifyPin() {
   const router = useRouter();
   const { pin } = useLocalSearchParams();
-  const [value, setValue] = useState('');
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
+  const [value, setValue] = useState("");
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
 
   const handleVerify = () => {
     if (value.length !== 6) {
-      Alert.alert('Error', 'Please enter a 6-digit PIN');
+      Alert.alert("Error", "Please enter a 6-digit PIN");
       return;
     }
 
     if (value !== pin) {
-      Alert.alert('PIN Mismatch', 'The PINs do not match. Please try again.');
+      Alert.alert("PIN Mismatch", "The PINs do not match. Please try again.");
       return;
     }
 
     // PINs match
     router.replace({
-      pathname: '/success',
+      pathname: "/success",
       params: {
-        title: 'PIN Created Successfully!',
-        message: 'You’ve successfully created your security PIN.',
-        nextRoute: '/addBvn',
-        buttonText: 'Continue',
+        title: "PIN Created Successfully!",
+        message: "You’ve successfully created your security PIN.",
+        nextRoute: "/addBvn",
+        buttonText: "Continue",
       },
     });
   };
 
   return (
     <View style={styles.container}>
-      <HeaderWithBack title="Confirm Your Pin" onBackPress={() => router.back()} />
+      <HeaderWithBack
+        title="Confirm Your Pin"
+        onBackPress={() => router.back()}
+      />
 
-        <Typo style={styles.title}>Set a six (6) digit pin that you would use for all transactions</Typo>
-
+      <Typo style={styles.title}>
+        Set a six (6) digit pin that you would use for all transactions
+      </Typo>
 
       <CodeField
         {...props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={(text) => {
+          setValue(text);
+          if (text.length === CELL_COUNT) {
+            Keyboard.dismiss();
+          }
+        }}
         cellCount={CELL_COUNT}
         rootStyle={styles.codeFieldRoot}
         keyboardType="number-pad"
@@ -58,12 +74,18 @@ export default function VerifyPin() {
             style={[styles.cell, isFocused && styles.focusCell]}
             onLayout={getCellOnLayoutHandler(index)}
           >
-            <Text style={styles.cellText}>{symbol || (isFocused ? <Cursor /> : null)}</Text>
+            <Text style={styles.cellText}>
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
           </View>
         )}
       />
 
-      <AppButton title="Confirm" onPress={handleVerify} style={{ marginTop: 500 }} />
+      <AppButton
+        title="Confirm"
+        onPress={handleVerify}
+        style={{ marginTop: 500 }}
+      />
     </View>
   );
 }
@@ -71,27 +93,27 @@ export default function VerifyPin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 24,
     paddingTop: 40,
   },
   title: {
     fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'ClashGrotesk-Light',
+    fontWeight: "400",
+    fontFamily: "ClashGrotesk-Light",
     marginTop: 30,
-    marginBottom: 20
+    marginBottom: 20,
   },
   instruction: {
     fontSize: 14,
-    color: '#333',
-    textAlign: 'center',
+    color: "#333",
+    textAlign: "center",
     marginTop: 24,
-    fontFamily: 'ClashGrotesk-Regular',
+    fontFamily: "ClashGrotesk-Regular",
   },
   codeFieldRoot: {
     marginTop: 32,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   cell: {
     width: 48,
@@ -99,20 +121,20 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     fontSize: 24,
     borderWidth: 1,
-    borderColor: '#F3F4F7',
+    borderColor: "#F3F4F7",
     borderRadius: 8,
-    textAlign: 'center',
+    textAlign: "center",
     marginHorizontal: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily: 'ClashGrotesk-Regular',
-    backgroundColor: '#F3F4F7',
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "ClashGrotesk-Regular",
+    backgroundColor: "#F3F4F7",
   },
   cellText: {
     fontSize: 24,
-    textAlign: 'center',
+    textAlign: "center",
   },
   focusCell: {
-    borderColor: '#000',
+    borderColor: "#000",
   },
 });
